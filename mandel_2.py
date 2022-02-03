@@ -32,34 +32,54 @@ def mandelbrot(height, width, x=-0.5, y=0, zoom=1, max_iterations=100):
 # plt.imshow(mandelbrot(800, 1000), cmap='magma')
 # plt.show()
 
-# plt.imshow(mandelbrot(512, 512, -0.77568377, -0.13646737, 1, 100), cmap="jet")
-# plt.show()
+plt.imshow(
+    mandelbrot(
+        height=4096,
+        width=4096,
+        x=0.001643721971153,
+        y=-0.822467633298876,
+        zoom=100000000,
+        max_iterations=10000
+    ),
+    cmap="magma"
+)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.savefig("image_wiki9.jpg", dpi=300, bbox_inches="tight", pad_inches=0, transparent=True)
 
 
-for i in range(101):
-    if i == 0:
-        zoom = 1
-    else:
-        zoom = int(10 ** (0.25 * i))
-    if zoom < 1000 and i != 0:
-        iteration = 500
-    elif i == 0:
-        iteration = 1000
-    else:
-        iteration = int(100 * 2 * i)
-    print(f"{i}: {zoom = }, {iteration = }")
-    plt.imshow(
-        mandelbrot(
-            height=512,
-            width=512,
-            x=-0.77568377,
-            y=-0.13646737,
-            zoom=zoom,
-            max_iterations=iteration
-        ),
-        cmap="twilight"
-    )
-    plt.savefig(f"image_{i}.jpg")
+
+
+# for i in range(1, 50):
+#     if i == 1:
+#         zoom = 1
+#     else:
+#         zoom = int(10 ** (0.25 * i))
+
+#     if zoom < 100 and i != 1:
+#         iteration = 500
+#     elif i == 1:
+#         iteration = 100
+#     else:
+#         iteration = int(100 * i)
+
+#     plt.imshow(
+#         mandelbrot(
+#             height=1024,
+#             width=1024,
+#             x=-0.77568377,
+#             y=0.13646737,
+#             zoom=zoom,
+#             max_iterations=iteration
+#         ),
+#         cmap="prism"
+#     )
+#     ax = plt.gca()
+#     ax.axes.xaxis.set_visible(False)
+#     ax.axes.yaxis.set_visible(False)
+#     plt.savefig(f"image_{i}.jpg", dpi=1000, bbox_inches="tight", pad_inches=0, transparent=True)
+#     print(f"{i}: {zoom = }, {iteration = }")
 
 # center of spiral: -0.77568377 + 0.13646737j
 # neck: -e/7 - e/20j
@@ -68,5 +88,25 @@ for i in range(101):
 # jigsaw: 0.42884 -0.231345j
 # sticks: -1.62917 -0.0203968j
 # other spiral : -0.761574 -0.0847596j
-# seahorse: -0.75 + 0.1j
+# seahorse: -0.75 + 0.05j
 # elephant: 0.1 + 0.1j
+
+### awesome sauce
+# wiki: 0.001643721971153 − 0.822467633298876i
+
+# big zoom real: -1.77983107263358987710609737625462554160612202082973721464269536941106123136243079619230058357360213932827
+# big zoom imag: 0.0000768808104690890642867866831207682698968739265086118371576831945033925898525759232427462136212757994983490243570012245
+# 0.0958598997051 + 1.1501990019993j
+
+# julias
+# -0.79 + 0.15j
+# -0.162 + 1.04j
+# 0.3 - 0.1j
+# -1.476 + 0j
+# 0.28 + 0.008j
+
+# palletes = [
+#     'flag', 'prism', 'ocean', 'gist_earth', 'terrain', 'gist_stern', 'gnuplot',
+#     'gnuplot2', 'CMRmap', 'cubehelix', 'brg', 'gist_rainbow', 'rainbow', 'jet',
+#     'turbo', 'nipy_spectral', 'gist_ncar'
+# ]
