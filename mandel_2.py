@@ -56,10 +56,10 @@ def julia_set(c=-0.4 + 0.6j, height=512, width=512, x=0, y=0, zoom=1, max_iterat
     return div_time
 
 
-def julia_test(c, zoom, max_iterations, im_name="test", dpi=300):
+def julia_test(c, zoom, max_iterations, im_name="test", dpi=300, palette="cubehelix"):
     plt.imshow(
         julia_set(c=c, height=512, width=512, zoom=zoom, max_iterations=max_iterations),
-        cmap="cubehelix",
+        cmap=palette,
     )
     ax = plt.gca()
     ax.axes.xaxis.set_visible(False)
