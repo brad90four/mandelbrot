@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import time
 
 
 def mandelbrot(height, width, x=-0.5, y=0, zoom=1, max_iterations=100):
@@ -25,39 +26,110 @@ def mandelbrot(height, width, x=-0.5, y=0, zoom=1, max_iterations=100):
         diverged = np.greater(
             np.abs(z), 2, out=np.full(c.shape, False), where=m
         )  # Find diverging
-        div_time[diverged] = i  # set the value of the diverged iteration number
+        div_time[diverged] = i - np.log2(np.log2(i)) # set the value of the diverged iteration number
         m[np.abs(z) > 2] = False  # to remember which have diverged
     return div_time
 
 
+def julia_set(c=-0.4 + 0.6j, height=512, width=512, x=0, y=0, zoom=1, max_iterations=100):
+    # To make navigation easier we calculate these values
+    x_width = 1.5
+    y_height = 1.5*height/width
+    x_from = x - x_width/zoom
+    x_to = x + x_width/zoom
+    y_from = y - y_height/zoom
+    y_to = y + y_height/zoom
+    # Here the actual algorithm starts
+    x = np.linspace(x_from, x_to, width).reshape((1, width))
+    y = np.linspace(y_from, y_to, height).reshape((height, 1))
+    z = x + 1j * y
+    # Initialize z to all zero
+    c = np.full(z.shape, c)
+    # To keep track in which iteration the point diverged
+    div_time = np.zeros(z.shape, dtype=int)
+    # To keep track on which points did not converge so far
+    m = np.full(c.shape, True, dtype=bool)
+    for i in range(max_iterations):
+        z[m] = z[m]**2 + c[m]
+        m[np.abs(z) > 2] = False
+        div_time[m] = i - np.log2(max(1, np.log2(i)))
+    return div_time
+
+
+def julia_test(c, zoom, max_iterations, im_name):
+    plt.imshow(
+        julia_set(c=c, height=512, width=512, zoom=zoom, max_iterations=max_iterations),
+        cmap="cubehelix",
+    )
+    ax = plt.gca()
+    ax.axes.xaxis.set_visible(False)
+    ax.axes.yaxis.set_visible(False)
+    plt.savefig(
+        f"julia_{im_name}.png",
+        dpi=300,
+        bbox_inches="tight",
+        pad_inches=0,
+        transparent=True,
+    )
+    print(f"{im_name = }, {c = }, {zoom = }, {max_iterations = }")
 # Default image of Mandelbrot set
 # plt.imshow(mandelbrot(800, 1000), cmap='magma')
 # plt.show()
 # interesting points:
 # x=-0.7756837699949401 y=-0.13646736999704
 # x= 0.001643721971153 y =-0.822467633298876
-
+# x=-0.7746806106269039, y=-0.1374168856037867
+# desktop:
+# zoom = 3162277660168
+# x=-0.7746806106269039,
+# y=-0.1374168856037867,
 
 def point_test(x, y, zoom, test_num):
+    # plt.imshow(
+    #     mandelbrot(height=512, width=512, x=x, y=y, zoom=zoom, max_iterations=1000),
+    #     cmap="cubehelix",
+    # )
+    # ax = plt.gca()
+    # ax.axes.xaxis.set_visible(False)
+    # ax.axes.yaxis.set_visible(False)
+    # plt.savefig(
+    #     f"im_test_{test_num}.png",
+    #     dpi=100,
+    #     bbox_inches="tight",
+    #     pad_inches=0,
+    #     transparent=True,
+    # )
+    # print(f"{x = }, {y = }")
+
+    c = complex(-0.7756837699949401, -0.13646736999704)
     plt.imshow(
-        mandelbrot(height=1024, width=1024, x=x, y=y, zoom=zoom, max_iterations=1000),
-        cmap="gist_ncar",
+        julia_set(
+            c=c,
+            height=512,
+            width=512,
+            x=x,
+            y=y,
+            zoom=zoom,
+            max_iterations=1000
+        ),
+        cmap="cubehelix",
     )
     ax = plt.gca()
     ax.axes.xaxis.set_visible(False)
     ax.axes.yaxis.set_visible(False)
     plt.savefig(
-        f"image_test_{test_num}.jpg",
-        dpi=300,
+        f"julia_{test_num}.png",
+        dpi=1000,
         bbox_inches="tight",
         pad_inches=0,
         transparent=True,
     )
-    print(f"{x = }, {y = }")
+    print(f"{test_num = }, {zoom = }")
 
 
 def pallete_test():
     palletes = [
+        "magma",
         "flag",
         "prism",
         "ocean",
@@ -75,18 +147,45 @@ def pallete_test():
         "turbo",
         "nipy_spectral",
         "gist_ncar",
+        "twilight"
     ]
-    zoom = 10000
-    iteration = 100
+    # zoom = 3162277660168
+    zoom = 1
+    iteration = 1000
     for pallete in palletes:
+        # plt.imshow(
+        #     mandelbrot(
+        #         height=1080,
+        #         width=1920,
+        #         x=-0.7756837699949401,
+        #         y=-0.13646736999704,
+        #         zoom=zoom,
+        #         max_iterations=iteration,
+        #     ),
+        #     cmap=pallete,
+        # )
+        # ax = plt.gca()
+        # ax.axes.xaxis.set_visible(False)
+        # ax.axes.yaxis.set_visible(False)
+        # plt.savefig(
+        #     f"image_{pallete}.png",
+        #     dpi=1000,
+        #     bbox_inches="tight",
+        #     pad_inches=0,
+        #     transparent=True,
+        # )
+        # print(f"{pallete}")
+
+        c = complex(-0.7756837699949401, -0.13646736999704)
         plt.imshow(
-            mandelbrot(
-                height=1024,
-                width=1024,
-                x=0.001643721971153,
-                y=-0.822467633298876,
+            julia_set(
+                c=c,
+                height=1080,
+                width=1920,
+                x=0,
+                y=0,
                 zoom=zoom,
-                max_iterations=iteration,
+                max_iterations=iteration
             ),
             cmap=pallete,
         )
@@ -94,46 +193,76 @@ def pallete_test():
         ax.axes.xaxis.set_visible(False)
         ax.axes.yaxis.set_visible(False)
         plt.savefig(
-            f"image_{pallete}.jpg",
-            dpi=300,
+            f"julia_{pallete}.png",
+            dpi=1000,
             bbox_inches="tight",
             pad_inches=0,
             transparent=True,
         )
-        print(f"{pallete}")
+        print(f"{pallete = }")
 
 
 def anim_image():
-    for i in range(0, 5):
+    for i in range(1, 51):
         if i == 1:
             zoom = 1
         else:
             zoom = int(10 ** (0.25 * i))  # every 4 iterations, zoom 10x
+        iteration = 500
+        # if zoom < 10:
+        #     iteration = 100
+        # elif zoom < 10000:
+        #     iteration = 500
+        # elif zoom >= 1000000:
+        #     iteration = 1000
+        # else:
+        #     iteration = 100 * int(max(1, np.floor(np.log10(zoom))))
 
-        iteration = 100 * int(max(1, np.floor(np.log10(zoom))))
-
+        # plt.imshow(
+        #     mandelbrot(
+        #         height=1024,
+        #         width=1024,
+        #         x=-0.7746806106269039,
+        #         y=-0.1374168856037867,
+        #         zoom=zoom,
+        #         max_iterations=iteration,
+        #     ),
+        #     cmap="cubehelix",
+        # )
+        c = complex(-0.7756837699949401, -0.13646736999704)
         plt.imshow(
-            mandelbrot(
-                height=1024,
-                width=1024,
-                x=-0.7756837699949401,
-                y=-0.13646736999704,
+            julia_set(
+                c=c,
+                x=0,
+                y=0,
                 zoom=zoom,
-                max_iterations=iteration,
+                max_iterations=iteration
             ),
-            cmap="gist_ncar",
+            cmap="cubehelix",
         )
         ax = plt.gca()
         ax.axes.xaxis.set_visible(False)
         ax.axes.yaxis.set_visible(False)
         plt.savefig(
-            f"image_{i}.jpg",
+            f"julia_{i}.png",
             dpi=300,
             bbox_inches="tight",
             pad_inches=0,
             transparent=True,
         )
-        print(f"{i}: {zoom = }, {iteration = }")
+        print(f"{i = }, {zoom = }, {iteration = }")
+
+        # ax = plt.gca()
+        # ax.axes.xaxis.set_visible(False)
+        # ax.axes.yaxis.set_visible(False)
+        # plt.savefig(
+        #     f"image_{i}.png",
+        #     dpi=300,
+        #     bbox_inches="tight",
+        #     pad_inches=0,
+        #     transparent=True,
+        # )
+        # print(f"{i}: {zoom = }, {iteration = }")
 
 
 def param_tester():
@@ -162,7 +291,7 @@ def param_tester():
                 ax.axes.xaxis.set_visible(False)
                 ax.axes.yaxis.set_visible(False)
                 plt.savefig(
-                    f"image_{dpi}_{zoom}_{size[0]}_{iteration}.jpg",
+                    f"image_{dpi}_{zoom}_{size[0]}_{iteration}.png",
                     dpi=dpi,
                     bbox_inches="tight",
                     pad_inches=0,
@@ -194,8 +323,22 @@ def param_tester():
 # -1.476 + 0j
 # 0.28 + 0.008j
 
-
-# point_test(x=-0.7756837699949401, y=-0.13646736999704, zoom=1000000000000000, test_num=11)
-# pallete_test()
-# param_tester()
-anim_image()
+if __name__ == "__main__":
+    start = time.perf_counter()
+    for i in range(0, 50):
+        zoom = 10 ** (0.25 * i)
+        # print(f"{zoom = }")
+        point_test(x=0, y=0, zoom=zoom, test_num=i)
+    
+    # pallete_test()
+    # param_tester()
+    # anim_image()
+    # c_list2 = [
+    #     complex(-0.79, 0.15), complex(-0.162, 1.04), complex(0.3, -0.1),
+    #     complex(-1.476, 0), complex(0.28, 0.008)
+    # ]
+    # c_list = [complex(0, imag)  for imag in np.arange(-2.1, 2.1, 0.1)]
+    # for c_pos in c_list2:
+    #     julia_test(c=c_pos, x=0, y=0, zoom=1, max_iterations=500, im_name=i)
+    #     i += 1
+    print(f"Finished in {time.perf_counter() - start}s")
