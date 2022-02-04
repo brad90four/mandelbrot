@@ -44,7 +44,7 @@ def julia_set(c=-0.4 + 0.6j, height=512, width=512, x=0, y=0, zoom=1, max_iterat
     y = np.linspace(y_from, y_to, height).reshape((height, 1))
     z = x + 1j * y
     # Initialize z to all zero
-    c = np.full(z.shape, c)
+    c = np.full(z.shape, c, dtype=np.complex128)
     # To keep track in which iteration the point diverged
     div_time = np.zeros(z.shape, dtype=int)
     # To keep track on which points did not converge so far
@@ -56,7 +56,7 @@ def julia_set(c=-0.4 + 0.6j, height=512, width=512, x=0, y=0, zoom=1, max_iterat
     return div_time
 
 
-def julia_test(c, zoom, max_iterations, im_name):
+def julia_test(c, zoom, max_iterations, im_name="test", dpi=300):
     plt.imshow(
         julia_set(c=c, height=512, width=512, zoom=zoom, max_iterations=max_iterations),
         cmap="cubehelix",
@@ -66,7 +66,7 @@ def julia_test(c, zoom, max_iterations, im_name):
     ax.axes.yaxis.set_visible(False)
     plt.savefig(
         f"julia_{im_name}.png",
-        dpi=300,
+        dpi=dpi,
         bbox_inches="tight",
         pad_inches=0,
         transparent=True,
@@ -119,7 +119,7 @@ def point_test(x, y, zoom, test_num):
     ax.axes.yaxis.set_visible(False)
     plt.savefig(
         f"julia_{test_num}.png",
-        dpi=1000,
+        dpi=300,
         bbox_inches="tight",
         pad_inches=0,
         transparent=True,
@@ -325,10 +325,10 @@ def param_tester():
 
 if __name__ == "__main__":
     start = time.perf_counter()
-    for i in range(0, 50):
-        zoom = 10 ** (0.25 * i)
-        # print(f"{zoom = }")
-        point_test(x=0, y=0, zoom=zoom, test_num=i)
+    # for i in range(0, 100):
+    #     zoom = 10 ** i
+    #     # print(f"{zoom = }")
+    #     point_test(x=0, y=0, zoom=zoom, test_num=i)
     
     # pallete_test()
     # param_tester()
@@ -337,8 +337,6 @@ if __name__ == "__main__":
     #     complex(-0.79, 0.15), complex(-0.162, 1.04), complex(0.3, -0.1),
     #     complex(-1.476, 0), complex(0.28, 0.008)
     # ]
-    # c_list = [complex(0, imag)  for imag in np.arange(-2.1, 2.1, 0.1)]
-    # for c_pos in c_list2:
-    #     julia_test(c=c_pos, x=0, y=0, zoom=1, max_iterations=500, im_name=i)
-    #     i += 1
+    c = complex(-0.7756837699949401, -0.13646736999704)
+    julia_test(c=c, height=1440, width=2560, zoom=1, max_iterations=5000, im_name="big_desktop", dpi=1000)
     print(f"Finished in {time.perf_counter() - start}s")
