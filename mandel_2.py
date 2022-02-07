@@ -56,9 +56,18 @@ def julia_set(c=-0.4 + 0.6j, height=512, width=512, x=0, y=0, zoom=1, max_iterat
     return div_time
 
 
-def julia_test(c, zoom, max_iterations, im_name="test", dpi=300, palette="cubehelix"):
+def julia_test(
+    c,
+    zoom=1,
+    height=512,
+    width=512,
+    max_iterations=100,
+    im_name="test",
+    dpi=300,
+    palette="cubehelix"
+):
     plt.imshow(
-        julia_set(c=c, height=512, width=512, zoom=zoom, max_iterations=max_iterations),
+        julia_set(c=c, height=height, width=width, zoom=zoom, max_iterations=max_iterations),
         cmap=palette,
     )
     ax = plt.gca()
@@ -338,5 +347,5 @@ if __name__ == "__main__":
     #     complex(-1.476, 0), complex(0.28, 0.008)
     # ]
     c = complex(-0.7756837699949401, -0.13646736999704)
-    julia_test(c=c, height=1440, width=2560, zoom=1, max_iterations=5000, im_name="big_desktop", dpi=1000)
+    julia_test(c=c, height=1440, width=2560, max_iterations=5000, im_name="big_desktop", dpi=1000)
     print(f"Finished in {time.perf_counter() - start}s")
