@@ -1,7 +1,7 @@
-from ctypes.wintypes import VARIANT_BOOL
+import time
+
 import matplotlib.pyplot as plt
 import numpy as np
-import time
 
 
 def mandelbrot(height, width, x=-0.5, y=0, zoom=1, max_iterations=100):
