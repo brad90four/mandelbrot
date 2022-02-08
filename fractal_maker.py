@@ -427,7 +427,7 @@ if __name__ == "__main__":
 
     x1 = point_collection["mandelbrot"][0][0]
     y1 = point_collection["mandelbrot"][0][1]
-    # point_test(mode="m", x=x1, y=y1, zoom=10000, test_num=1, c=None, iterations=1000)
+    # point_test(mode="m", x=x1, y=y1, zoom=10000, test_num=1, iterations=1000)
 
     c1 = point_collection["julia"][7]
     # point_test(mode="j", zoom=1, test_num=1, c=c1, iterations=100)
@@ -449,7 +449,6 @@ if __name__ == "__main__":
         iteration=100,
         x=x2,
         y=y2,
-        c=None,
         zoom_scale=True
     )
 
@@ -459,17 +458,15 @@ if __name__ == "__main__":
     #     zoom_rate=4,
     #     zoom_range=101,
     #     iteration=500,
-    #     x=0,
-    #     y=0,
     #     c=c2,
     #     zoom_scale=False,
     # )
 
     x3 = point_collection["mandelbrot"][1][0]
     y3 = point_collection["mandelbrot"][1][1]
-    # param_tester(mode="m", x=x3, y=y3, c=None)
+    # param_tester(mode="m", x=x3, y=y3)
 
     c3 = point_collection["julia"][0]
-    # param_tester(mode="j", x=0, y=0, c=c3)
+    # param_tester(mode="j", c=c3)
 
     print(f"Finished in {time.perf_counter() - start}s")

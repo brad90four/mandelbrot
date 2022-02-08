@@ -22,7 +22,7 @@ if __name__ == "__main__":
     x1 = point_collection["mandelbrot"][0][0]
     y1 = point_collection["mandelbrot"][0][1]
 
-    point_test(mode="m", x=x1, y=y1, zoom=10000, test_num=1, c=None, iterations=1000)
+    point_test(mode="m", x=x1, y=y1, zoom=10000, test_num=1, iterations=1000)
 
     print(f"Finished in {time.perf_counter() - start}s")
 ```
@@ -44,7 +44,6 @@ if __name__ == "__main__":
         iteration=100,
         x=x2,
         y=y2,
-        c=None,
         zoom_scale=True
     )
 
