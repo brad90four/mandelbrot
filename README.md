@@ -26,7 +26,9 @@ if __name__ == "__main__":
 
     print(f"Finished in {time.perf_counter() - start}s")
 ```
-Result: 
+Result:
+
+![Example 1](https://github.com/brad90four/mandelbrot/blob/main/m_example_1.png)
 
 ## Animation Example:
 Create a series of images at higher zoom levels, and run the `animator` script to create an animation. 
@@ -58,4 +60,6 @@ if __name__ == "__main__":
     mp4("test1", 10)
 ```
 
-Result: 
+Result:
+
+![Example 2](https://github.com/brad90four/mandelbrot/blob/main/test1.mp4)
