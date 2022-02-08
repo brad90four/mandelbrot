@@ -427,7 +427,7 @@ if __name__ == "__main__":
 
     x1 = point_collection["mandelbrot"][0][0]
     y1 = point_collection["mandelbrot"][0][1]
-    # point_test(mode="m", x=x1, y=y1, zoom=10000, test_num=1, iterations=1000)
+    point_test(mode="m", x=x1, y=y1, zoom=10000, test_num="example_1", iterations=1000)
 
     c1 = point_collection["julia"][7]
     # point_test(mode="j", zoom=1, test_num=1, c=c1, iterations=100)
@@ -444,8 +444,8 @@ if __name__ == "__main__":
     y2 = point_collection["mandelbrot"][3][1]
     anim_image(
         mode="m",
-        zoom_rate=4,
-        zoom_range=101,
+        zoom_rate=2,
+        zoom_range=10,
         iteration=100,
         x=x2,
         y=y2,

@@ -39,8 +39,8 @@ if __name__ == "__main__":
     y2 = point_collection["mandelbrot"][3][1]
     anim_image(
         mode="m",
-        zoom_rate=4,
-        zoom_range=101,
+        zoom_rate=2,
+        zoom_range=10,
         iteration=100,
         x=x2,
         y=y2,
