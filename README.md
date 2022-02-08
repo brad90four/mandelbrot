@@ -57,9 +57,9 @@ And once the images are created:
 # animator.py
 
 if __name__ == "__main__":
-    mp4("test1", 10)
+    gif("test1")
 ```
 
 Result:
 
-![Example 2](https://github.com/brad90four/mandelbrot/blob/main/test1.mp4)
+![Example 2](https://github.com/brad90four/mandelbrot/blob/main/test1.gif)
